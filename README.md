@@ -1,3 +1,4 @@
 # MaturaArbeit
 
-Maturarbeit zum Thema Neuronale Netzwerke
+Maturarbeit zum Thema Neuronale Netzwerke.
+
