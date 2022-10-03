@@ -734,6 +734,12 @@ class Model:
         #Initialize accuracy object
         self.accuracy.init(y) 
         
+        # Create a list to store all the accuracies
+        self.accuracies = []
+        
+        # Create a list to store the epochs
+        self.epochs = []
+        
         #Default value if batch size is not being set
         train_steps = 1
             
@@ -782,6 +788,12 @@ class Model:
                 predictions = self.output_layer_activation.predictions(output)
                 
                 accuracy = self.accuracy.calculate(predictions, batch_y) 
+                
+                # Store the current accuracy
+                self.accuracies.append(accuracy)
+                
+                # Store the current epoch
+                self.epochs.append(epoch)
                 
                 #Perform backward pass
                 self.backward(output, batch_y)
