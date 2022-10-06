@@ -1,0 +1,20 @@
+Arbeitsprozess zur Maturarbeit Neuronale Netzwerke
+
+Sommerferien: 
+Informieren über das Thema und lesen des Buches Neural Networks from Scratch von 
+Das erstellen eines Classification Models für das MNIST Fashion Dataset.
+
+4. - 10 September: 
+Erstellen eines Flowcharts als Übersicht für den Aufbau eines Fully Connected Model.
+
+11. - 17 September: 
+Besuch der Studienwoche Fascinating Informatics an der USI in Lugano. Dort habe ich ein 
+Deep Learning Classification Model erstellt zur Erkennung von handgeschriebenen Ziffern. Das Model 
+wurde mithilfe der Pytorch Bibliothek erstellt. Weiterhin war unsere Aufgabe das Model anzugreifen, 
+um eine falsche Klassifikation zu erreichen und nach einem Angriff das Model zu verteidigen. 
+
+18. - 24. September: 
+Start mit dem digit_classifier mithilfe des vor programmierten Bausteine von neural_network.
+
+25. September - 1. Oktober: 
+Beenden des digit_classifier Prototypes. 
