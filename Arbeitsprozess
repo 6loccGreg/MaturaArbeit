@@ -1,7 +1,7 @@
 Arbeitsprozess zur Maturarbeit Neuronale Netzwerke
 
 Sommerferien: 
-Informieren über das Thema und lesen des Buches Neural Networks from Scratch von 
+Informieren über das Thema und lesen des Buches Neural Networks from Scratch von Harrison Kinsley & Daniel Kukiela.
 Das erstellen eines Classification Models für das MNIST Fashion Dataset.
 
 4. - 10 September: 
@@ -17,4 +17,5 @@ um eine falsche Klassifikation zu erreichen und nach einem Angriff das Model zu 
 Start mit dem digit_classifier mithilfe des vor programmierten Bausteine von neural_network.
 
 25. September - 1. Oktober: 
-Beenden des digit_classifier Prototypes. 
+Beenden des digit_classifier Prototypes. Beginn mit dem Convolutional Layer und dem Pooling Layer. Fertigstellen
+der Convolution Methode im Convolutional Layer. 
