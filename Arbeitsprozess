@@ -17,5 +17,14 @@ um eine falsche Klassifikation zu erreichen und nach einem Angriff das Model zu 
 Start mit dem digit_classifier mithilfe des vor programmierten Bausteine von neural_network.
 
 25. September - 1. Oktober: 
-Beenden des digit_classifier Prototypes. Beginn mit dem Convolutional Layer und dem Pooling Layer. Fertigstellen
-der Convolution Methode im Convolutional Layer. 
+Beenden des digit_classifier Prototypes. 
+
+2. - 8. Oktober
+Beginn des Convolution Layers und Max Pool Layer. 
+Repetition und genaueres Ansehen der Backpropagation, um den Prozess besser zu verstehen.
+
+9. - 14. Oktober
+Programmieren der Convolution Methode und besseres Verständnis eines Convolutional Neural Networks. Beginn mit der Backpropagation 
+zu Convolution und zum Pooling Layer. 
+
+
