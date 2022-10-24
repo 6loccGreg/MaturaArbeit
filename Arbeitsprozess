@@ -23,8 +23,10 @@ Beenden des digit_classifier Prototypes.
 Beginn des Convolution Layers und Max Pool Layer. 
 Repetition und genaueres Ansehen der Backpropagation, um den Prozess besser zu verstehen.
 
-9. - 14. Oktober
-Programmieren der Convolution Methode und besseres Verständnis eines Convolutional Neural Networks. Beginn mit der Backpropagation 
+9. - 15. Oktober
+Programmieren der Convolution Methode und besseres Verständnis eines Convolutional Neural Networks aneignen. Beginn mit der Backpropagation 
 zu Convolution und zum Pooling Layer. 
 
-
+16. - 22. Oktober
+Fertigstellen des Convolution Layer und des Max Pool Layer. 
+LeNet als Netzwerk Architektur verwenden. 
