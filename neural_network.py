@@ -108,6 +108,332 @@ class Layer_Input:
     def forward(self, inputs, training):
         self.output = inputs
 
+class Layer_Max_Pooling:
+
+    def __init__(self, step_size=2, kernel_size=2, mode="max"):
+        self.step_size = step_size
+        self.kernel_size = kernel_size
+        self.last_max_row = []
+        self.last_max_col = []
+        self.mode = mode
+                
+
+    def forward(self, input):
+        self.input = input
+
+        self.output = []
+        
+        for img in range(len(input)):
+            self.output.append(self.pool(input[img]))
+        
+        return np.squeeze(np.array(self.output))
+
+    def pool(self, input):
+                
+        self.input_rows = len(input)
+        self.input_cols = len(input[0])
+                
+        self.output_rows = int((self.input_rows - self.kernel_size)/ self.step_size + 1)
+        self.output_cols = int((self.input_cols - self.kernel_size)/ self.step_size + 1)
+        
+        output = np.ndarray(shape=(self.output_rows, self.output_cols))
+        
+        max_rows = np.ndarray(shape=(self.output_rows, self.output_cols))
+        max_cols = np.ndarray(shape=(self.output_rows, self.output_cols))
+                        
+        for row in range(0, self.output_rows, self.step_size):
+            for col in range(0, self.output_cols, self.step_size):
+                
+                
+                max = 0.0
+                max_rows[row][col] = -1
+                max_cols[row][col] = -1
+                # here if max or avg
+                avg = 0.0
+                for x in range(self.kernel_size):
+                    for y in range(self.kernel_size):
+                        if max < input[row + x][col + y]:
+                            max = input[row + x][col + y]
+                            max_rows[row][col] = row + x
+                            max_cols[row][col] = col + y
+                
+                output[row][col] = max
+
+        self.last_max_row.append(max_rows)
+        self.last_max_col.append(max_cols)
+        
+        return output
+
+    def backward(self, dvalues):
+
+        self.dinputs = []
+
+        l = 0
+        
+        for array in dvalues:
+            
+            error = np.ndarray(shape=(self.input_rows, self.input_cols))
+            
+            for row in range(self.output_rows):
+                for col in range(self.output_cols):
+                    max_x = self.last_max_row[l][row][col]
+                    max_y = self.last_max_col[l][row][col]
+                    
+                    if max_x != -1:
+                        error[max_x][max_y] += array[row][col]
+                        
+
+            self.dinputs.append(error)
+            
+            l+=1 
+        
+        self.dinputs = np.squeeze(np.array(self.dinputs))
+    
+        
+
+class Layer_Convolution:
+    
+    def __init__(self, num_filters, kernel_size=3, step_size=1, padding=0, seed=0.001):
+        
+        self.filters = [] 
+        self.kernel_size = kernel_size
+        self.step_size = step_size
+        self.seed = seed
+        self.num_filters = num_filters
+        self.padding = padding
+        self.generate_random_filters(num_filters)
+            
+    def forward(self, input):
+
+        self.last_input = input
+
+        self.output = []    
+        if len(input.shape) == 3:
+            for matrix in range(len(input)):
+                for filter in self.filters:
+                    self.output.append(self.convolve(input[matrix], filter, self.step_size))
+        
+        if len(input.shape) == 2:
+            for filter in self.filters:
+                self.output.append(self.convolve(input, filter, self.step_size))
+            
+        self.input = input        
+
+        return np.squeeze(np.array(self.output))
+            
+    def convolve(self, input, filter, step_size):
+        if self.padding != 0:
+            input_padded = np.zeros((len(input) + self.padding *2, len(input[0]) + self.padding*2))
+            input_padded[int(self.padding):int(-1 * self.padding), int(self.padding):int(-1 * self.padding)] = input
+        
+        else: 
+            input_padded = input
+        
+        output_rows = int((len(input_padded) - len(filter))/step_size + 1)  
+        output_cols = int((len(input_padded[0]) - len(filter[0]))/ step_size + 1)
+            
+        self.input_rows = len(input_padded)
+        self.input_cols = len(input_padded[0])
+        
+        filter_rows = len(filter)
+        filter_cols = len(filter[0])
+        
+        output = np.ndarray(shape=(output_rows, output_cols))
+        
+        output_row = 0
+        
+        for row_index in range(0, self.input_rows-filter_rows+ 1, step_size):
+            
+            output_col = 0
+            
+            for col_index in range(0, self.input_cols-filter_cols + 1, step_size):
+                
+                sum = 0.0
+                
+                #Apply the filter
+                for row_x  in range(filter_rows):
+                    for col_y in range(filter_cols):
+                        input_row_index = row_index + row_x
+                        input_col_index = col_index + col_y
+                        
+                        value = filter[row_x][col_y] * input_padded[input_row_index][input_col_index]
+                        sum+= value
+                        
+                
+                output[output_row][output_col] = sum
+                output_col +=1
+            
+            output_row +=1
+                    
+        return output
+
+    
+    
+    
+    def generate_random_filters(self, num_filters):
+        output = []
+        
+        random = randint(1,100) * self.seed
+                    
+        for filter in range(num_filters):
+            new_filter = np.ndarray(shape=(self.kernel_size, self.kernel_size))
+            
+            for i in range(self.kernel_size):
+                for j in range(self.kernel_size):
+                    
+                    value = gauss(-1., 1.)
+                    
+                    new_filter[i][j] = value
+                    
+            self.filters.append(new_filter)
+        
+        
+    def space_array(self, input):
+        
+        if self.step_size == 1:
+            return input
+        
+        
+        output_rows = (len(input) -1)*self.step_size +1
+        output_cols = (len(input[0]) -1)*self.step_size +1
+        
+        output = np.ndarray(shape=(output_rows, output_cols))
+        
+        for row in range(len(input)):
+            for col in range(len(input[0])):
+                output[row*self.step_size][col*self.step_size] = input[row][col]
+        
+        return output
+
+    def backward(self,dvalues):
+        
+        filters_delta = []
+        
+        self.dinputs = []
+        
+        for filter_index in range(self.kernel_size): 
+            filters_delta.append(np.ndarray(shape=(self.kernel_size, self.kernel_size)))
+        
+        for input in range(self.last_input):
+            
+            error_for_input = np.ndarray(shape=(self.input_rows, self.input_cols))
+            for filter in range(len(self.filters)):
+                current_filter = self.filters[filter]
+                error = dvalues[input*self.kernel_size + filter]
+                
+                spaced_error = self.space_array(error)
+                self.dweights = np.array(self.convolve(self.last_input[input], spaced_error, step_size=1))
+                
+                flipped_error = self.flip_array_horizontal(self.flip_array_vertical(spaced_error))
+                error_for_input = np.append(error_for_input, self.full_convolve(current_filter,flipped_error))
+                
+            self.dinputs.append(error_for_input)
+        self.dbiases = dvalues
+        
+    def flip_array_horizontal(self, array):
+        rows = len(array)
+        cols = len(array[0])
+
+        output = np.ndarray(shape=(rows, cols))
+
+        for row in range(rows):
+            for col in range(cols):
+                output[rows-row-1][col] = array[row][col]
+        
+        return output
+    
+    def flip_array_vertical(self, array):
+        rows = len(array)
+        cols = len(array[0])
+        
+        output = np.ndarray(shape=(rows, cols))
+        
+        for row in range(rows):
+            for col in range(cols):
+                output[row][cols-col-1] = array[row][col]
+        
+        return output
+    
+    def full_convolve(self, input, filter):
+            
+        if self.padding != 0:
+            input_padded = np.zeros((len(input) + self.padding *2, len(input[0]) + self.padding*2))
+            input_padded[int(self.padding):int(-1 * self.padding), int(self.padding):int(-1 * self.padding)] = input
+        
+        else: 
+            input_padded = input
+        
+        output_rows = int((len(input_padded) + len(filter)) + 1)  
+        output_cols = int((len(input_padded[0]) + len(filter[0])) + 1)
+            
+        input_rows = len(input_padded)
+        input_cols = len(input_padded[0])
+        
+        filter_rows = len(filter)
+        filter_cols = len(filter[0])
+        
+        output = np.ndarray(shape=(output_rows, output_cols))
+        
+        output_row = 0
+        
+        for row_index in range(-filter_rows + 1, input_rows):
+            
+            output_col = 0
+            
+            for col_index in range(-filter_cols + 1, input_cols):
+                
+                sum = 0.0
+                
+                #Apply the filter
+                for row_x  in range(filter_rows):
+                    for col_y in range(filter_cols):
+                        input_row_index = row_index + row_x
+                        input_col_index = col_index + col_y
+                        
+                        if input_row_index >= 0 and input_col_index >= 0 and input_row_index < input_rows and input_col_index < input_cols:
+                            value = filter[row_x][col_y] * input_padded[input_row_index][input_col_index]
+                            sum+= value
+                            
+                
+                output[output_row][output_col] = sum
+                output_col +=1
+            
+            output_row +=1
+                    
+        return output
+    
+    def matrix_to_vector(self, input):
+
+        length = len(input)
+        rows = len(input[0])
+        cols = len(input[0][0])
+        
+        vector = np.ndarray(shape=(length*rows*cols, 1))
+        
+        i = 0
+        for l in range(length):
+            for row in range(rows):
+                for col in range(cols):
+                    vector[i] = input[l][row][col]
+                    i+=1
+        
+        return vector
+    
+    def vector_to_matrix(self, input: list, length: int, rows:int, cols:int):
+
+        output = []
+        
+        i=0
+        for l in range(length):
+            matrix = np.ndarray(shape=(rows, cols))
+            for row in range(rows):
+                for col in range(cols):
+                    matrix[row][col] = input[i]
+                    i+=1
+            
+            output.append(matrix)
+
+
 #ReLu Activation 
 class Activation_ReLU:
     
