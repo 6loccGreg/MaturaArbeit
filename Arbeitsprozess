@@ -19,14 +19,39 @@ Start mit dem digit_classifier mithilfe des vor programmierten Bausteine von neu
 25. September - 1. Oktober: 
 Beenden des digit_classifier Prototypes. 
 
-2. - 8. Oktober
+2. - 8. Oktober:
 Beginn des Convolution Layers und Max Pool Layer. 
 Repetition und genaueres Ansehen der Backpropagation, um den Prozess besser zu verstehen.
 
-9. - 15. Oktober
+9. - 15. Oktober:
 Programmieren der Convolution Methode und besseres Verständnis eines Convolutional Neural Networks aneignen. Beginn mit der Backpropagation 
 zu Convolution und zum Pooling Layer. 
 
-16. - 22. Oktober
+16. - 22. Oktober:
 Fertigstellen des Convolution Layer und des Max Pool Layer. 
 LeNet als Netzwerk Architektur verwenden. 
+
+23. - 29. Oktober:
+Fortführen der Arbeit am Convolutional Layer und des Max Pool Layer.
+
+30. Oktober - 5. November:
+Problem mit den Feature Maps im zweiten Convolutional Layer gelöst. 
+Fertigstellen des Convolutional Neural Network.
+
+6. - 12. November:
+Arbeiten an der Verbesserung der Accuracy und des Loss. 
+Herausfinden wieso diese Werte so niedrig sind.
+
+13. - 19. November:
+Weitere Netzwerk Architekturen implentieren um mehr Ergebnisse zu bekommen.
+Schlussendlich sollte ich davon mehr Informationen erhalten um das Netzwerk zu verbessern.
+
+20. - 27. November:
+
+
+
+
+
+
+
+
