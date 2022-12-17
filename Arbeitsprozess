@@ -46,9 +46,20 @@ Herausfinden wieso diese Werte so niedrig sind.
 Weitere Netzwerk Architekturen implentieren um mehr Ergebnisse zu bekommen.
 Schlussendlich sollte ich davon mehr Informationen erhalten um das Netzwerk zu verbessern.
 
-20. - 27. November:
+20. - 26. November:
+Beginn des Trainierens um Resultate, wie auch Graphen.
+Die Arbeit am Convolution Neural Network pausieren und wieder aufs Fully Connected Neural Network fokusieren.
 
+27. November - 3. Dezember:
+Kreiren von Matplotlib Graphen, welche die Accuracy des Optimizer darstellen. 
+Beednen der Strukturierung der schriftlichen Dokumentation der Arbeit.
 
+4. - 10. Dezember:
+Schreiben an der schriftlichen Dokumentation.
+Beenden eines Entwurfs des ersten Abschnittes zum Neuronalen Netzwerk.
+
+11. - 17. 
+Weiter schreiben an der schriftlichen Dokumentation. 
 
 
 
